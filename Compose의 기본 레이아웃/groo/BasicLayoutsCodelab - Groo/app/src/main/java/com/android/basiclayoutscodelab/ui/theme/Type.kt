@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.basiclayoutscodelab.theme
+package com.android.basiclayoutscodelab.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
