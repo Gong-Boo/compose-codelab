@@ -137,7 +137,7 @@ fun AlignYourBodyRow(
 ) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(horizontal = 16.dp),
+        contentPadding = PaddingValues(16.dp),
         modifier = modifier
     ) {
         items(alignYourBodyData) { item ->
@@ -149,12 +149,31 @@ fun AlignYourBodyRow(
     }
 }
 
+// FIXME: refactor to LazyHorizontalGrid
 // Step: Favorite collections grid - LazyGrid
 @Composable
 fun FavoriteCollectionsGrid(
     modifier: Modifier = Modifier
 ) {
-
+    LazyRow(
+        contentPadding = PaddingValues(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = modifier
+    ) {
+        items(favoriteCollectionsData.size / 2) { idx ->
+            Column {
+                FavoriteCollectionCard(
+                    drawable = favoriteCollectionsData[idx + idx].drawable,
+                    text = favoriteCollectionsData[idx + idx].text
+                )
+                Spacer(Modifier.padding(8.dp))
+                FavoriteCollectionCard(
+                    drawable = favoriteCollectionsData[idx + idx + 1].drawable,
+                    text = favoriteCollectionsData[idx + idx + 1].text
+                )
+            }
+        }
+    }
 }
 
 // Step: Home section - Slot APIs
