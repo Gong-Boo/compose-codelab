@@ -26,21 +26,9 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Card
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.Divider
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.ListItem
-import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Palette
-import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
@@ -59,6 +47,8 @@ import com.codelab.theming.R
 import com.codelab.theming.data.Post
 import com.codelab.theming.data.PostRepo
 import com.codelab.theming.ui.finish.theme.JetnewsTheme
+import com.codelab.theming.ui.start.LocalElevations
+import com.codelab.theming.ui.start.LocalElevations1
 import java.util.Locale
 
 @Composable
@@ -196,6 +186,9 @@ private fun PostMetadata(
             style = MaterialTheme.typography.body2,
             modifier = modifier
         )
+
+        LocalElevations
+        LocalElevations1.current
     }
 }
 
@@ -205,6 +198,9 @@ fun PostItem(
     post: Post,
     modifier: Modifier = Modifier
 ) {
+    ProvideTextStyle {
+
+    }
     ListItem(
         modifier = modifier
             .clickable { /* todo */ }

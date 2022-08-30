@@ -19,12 +19,32 @@ package com.codelab.theming.ui.start
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material.LocalContentColor
 import androidx.compose.material.Surface
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
+
+var LocalElevations = 1
+val LocalElevations1 = compositionLocalOf { 1 }
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+
+            LocalContentColor.current
+
+            CompositionLocalProvider(LocalElevations1 provides 2) {
+                // ... Content goes here ...
+                // This part of Composition will see the `elevations` instance
+                // when accessing LocalElevations.current
+            }'
+
+            '
+
+
+            LocalElevations = 2
+
             Surface {
                 Home()
             }
