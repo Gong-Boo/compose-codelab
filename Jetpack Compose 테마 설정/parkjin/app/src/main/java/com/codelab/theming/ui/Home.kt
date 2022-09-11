@@ -1,4 +1,4 @@
-package com.codelab.theming.ui.finish
+package com.codelab.theming.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -42,7 +42,7 @@ import androidx.compose.ui.unit.dp
 import com.codelab.theming.R
 import com.codelab.theming.data.Post
 import com.codelab.theming.data.PostRepo
-import com.codelab.theming.ui.finish.theme.JetnewsTheme
+import com.codelab.theming.ui.theme.JetnewsTheme
 import java.util.Locale
 
 @Composable

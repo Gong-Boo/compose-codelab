@@ -1,4 +1,4 @@
-package com.codelab.theming.ui.start
+package com.codelab.theming.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

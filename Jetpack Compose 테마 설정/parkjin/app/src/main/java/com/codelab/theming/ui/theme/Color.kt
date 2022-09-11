@@ -1,4 +1,4 @@
-package com.codelab.theming.ui.finish.theme
+package com.codelab.theming.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
