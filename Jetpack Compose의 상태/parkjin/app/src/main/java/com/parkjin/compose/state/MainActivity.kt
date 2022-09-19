@@ -24,6 +24,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,11 +48,25 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+data class WellnessTask(
+    val id: Int,
+    val label: String
+)
+
+private fun getWellnessTasks() = List(30) {
+    WellnessTask(it, "Task # $it")
+}
+
 @Composable
 fun WellnessScreen(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         StatefulCounter()
-        WellnessTaskList()
+
+        val list = remember { getWellnessTasks().toMutableStateList() }
+        WellnessTaskList(
+            list = list,
+            onCloseTask = list::remove
+        )
     }
 }
 
@@ -93,19 +108,11 @@ fun StatelessCounter(
     }
 }
 
-data class WellnessTask(
-    val id: Int,
-    val label: String
-)
-
-private fun getWellnessTasks() = List(30) {
-    WellnessTask(it, "Task # $it")
-}
-
 @Composable
 fun WellnessTaskList(
     modifier: Modifier = Modifier,
-    list: List<WellnessTask> = remember { getWellnessTasks() }
+    list: List<WellnessTask> = remember { getWellnessTasks() },
+    onCloseTask: (WellnessTask) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
@@ -114,15 +121,19 @@ fun WellnessTaskList(
             items = list,
             key = { it.id }
         ) { task ->
-            WellnessTaskItem(taskName = task.label)
+            WellnessTaskItem(
+                taskName = task.label,
+                onCloseTask = { onCloseTask(task) }
+            )
         }
     }
 }
 
 @Composable
 fun WellnessTaskItem(
+    modifier: Modifier = Modifier,
     taskName: String,
-    modifier: Modifier = Modifier
+    onCloseTask: () -> Unit
 ) {
     var checkedState by rememberSaveable { mutableStateOf(false) }
 
@@ -130,7 +141,7 @@ fun WellnessTaskItem(
         taskName = taskName,
         checked = checkedState,
         onCheckedChange = { checkedState = it },
-        onClose = {},
+        onClose = onCloseTask,
         modifier = modifier
     )
 }
