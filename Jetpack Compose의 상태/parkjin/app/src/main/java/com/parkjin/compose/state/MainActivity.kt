@@ -7,7 +7,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
+import androidx.compose.material.Checkbox
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -46,7 +49,10 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun WellnessScreen(modifier: Modifier = Modifier) {
-    StatefulCounter(modifier = modifier)
+    Column(modifier = modifier) {
+        StatefulCounter()
+        WellnessTaskList()
+    }
 }
 
 @Composable
@@ -87,9 +93,53 @@ fun StatelessCounter(
     }
 }
 
+data class WellnessTask(
+    val id: Int,
+    val label: String
+)
+
+private fun getWellnessTasks() = List(30) {
+    WellnessTask(it, "Task # $it")
+}
+
+@Composable
+fun WellnessTaskList(
+    modifier: Modifier = Modifier,
+    list: List<WellnessTask> = remember { getWellnessTasks() }
+) {
+    LazyColumn(
+        modifier = modifier
+    ) {
+        items(
+            items = list,
+            key = { it.id }
+        ) { task ->
+            WellnessTaskItem(taskName = task.label)
+        }
+    }
+}
+
 @Composable
 fun WellnessTaskItem(
     taskName: String,
+    modifier: Modifier = Modifier
+) {
+    var checkedState by rememberSaveable { mutableStateOf(false) }
+
+    WellnessTaskItem(
+        taskName = taskName,
+        checked = checkedState,
+        onCheckedChange = { checkedState = it },
+        onClose = {},
+        modifier = modifier
+    )
+}
+
+@Composable
+fun WellnessTaskItem(
+    taskName: String,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
     onClose: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -102,6 +152,10 @@ fun WellnessTaskItem(
                 .weight(1f)
                 .padding(start = 16.dp),
             text = taskName
+        )
+        Checkbox(
+            checked = checked,
+            onCheckedChange = onCheckedChange
         )
         IconButton(onClick = onClose) {
             Icon(
