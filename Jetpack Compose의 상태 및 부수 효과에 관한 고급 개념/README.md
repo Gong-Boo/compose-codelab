@@ -1,0 +1,2 @@
+# Jetpack Compose의 상태 및 부수 효과에 관한 고급 개념
+[코드랩 바로가기](https://developer.android.com/codelabs/jetpack-compose-advanced-state-side-effects?continue=https%3A%2F%2Fdeveloper.android.com%2Fcourses%2Fpathways%2Fcompose%23codelab-https%3A%2F%2Fdeveloper.android.com%2Fcodelabs%2Fjetpack-compose-advanced-state-side-effects#0)
