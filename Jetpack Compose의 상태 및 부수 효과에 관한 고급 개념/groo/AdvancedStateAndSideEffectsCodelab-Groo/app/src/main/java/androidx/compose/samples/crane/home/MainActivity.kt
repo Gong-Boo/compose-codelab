@@ -36,6 +36,14 @@ class MainActivity : ComponentActivity() {
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
+
+        SideEffect {
+
+        }
+
+        snapshotFlow {  }
+        
+        produceState(initialValue = , producer = )
         setContent {
             ProvideWindowInsets {
                 CraneTheme {
