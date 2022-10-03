@@ -33,9 +33,9 @@ class RallyActivity : ComponentActivity() {
 @Composable
 fun RallyApp() {
     RallyTheme {
-        val naviController = rememberNavController()
+        val navController = rememberNavController()
 
-        val currentBackStack by naviController.currentBackStackEntryAsState()
+        val currentBackStack by navController.currentBackStackEntryAsState()
         val currentDestination = currentBackStack?.destination
         val currentScreen = rallyTabRowScreens
             .find { it.route == currentDestination?.route }
@@ -46,44 +46,56 @@ fun RallyApp() {
                 RallyTabRow(
                     allScreens = rallyTabRowScreens,
                     onTabSelected = { screen ->
-                        naviController.navigateSingleTopTo(screen.route)
+                        navController.navigateSingleTopTo(screen.route)
                     },
                     currentScreen = currentScreen
                 )
             }
         ) { innerPadding ->
-            NavHost(
-                navController = naviController,
-                startDestination = Overview.route,
+            RallyNavHost(
+                navHostController = navController,
                 modifier = Modifier.padding(innerPadding)
-            ) {
-                composable(route = Overview.route) {
-                    OverviewScreen(
-                        onClickSeeAllAccounts = {
-                            naviController.navigateSingleTopTo(Accounts.route)
-                        },
-                        onClickSeeAllBills = {
-                            naviController.navigateSingleTopTo(Bills.route)
-                        },
-                        onAccountClick = naviController::navigateToSingleAccount
-                    )
-                }
-                composable(route = Accounts.route) {
-                    AccountsScreen(
-                        onAccountClick = naviController::navigateToSingleAccount
-                    )
-                }
-                composable(route = Bills.route) {
-                    BillsScreen()
-                }
-                composable(
-                    route = SingleAccount.routeWithArgs,
-                    arguments = SingleAccount.arguments
-                ) { backStackEntry ->
-                    val accountType = backStackEntry.arguments?.getString(SingleAccount.accountTypeArg)
-                    SingleAccountScreen(accountType)
-                }
-            }
+            )
+        }
+    }
+}
+
+@Composable
+fun RallyNavHost(
+    navHostController: NavHostController,
+    modifier: Modifier
+) {
+    NavHost(
+        navController = navHostController,
+        startDestination = Overview.route,
+        modifier = modifier
+    ) {
+        composable(route = Overview.route) {
+            OverviewScreen(
+                onClickSeeAllAccounts = {
+                    navHostController.navigateSingleTopTo(Accounts.route)
+                },
+                onClickSeeAllBills = {
+                    navHostController.navigateSingleTopTo(Bills.route)
+                },
+                onAccountClick = navHostController::navigateToSingleAccount
+            )
+        }
+        composable(route = Accounts.route) {
+            AccountsScreen(
+                onAccountClick = navHostController::navigateToSingleAccount
+            )
+        }
+        composable(route = Bills.route) {
+            BillsScreen()
+        }
+        composable(
+            route = SingleAccount.routeWithArgs,
+            arguments = SingleAccount.arguments,
+            deepLinks = SingleAccount.deepLinks
+        ) { backStackEntry ->
+            val accountType = backStackEntry.arguments?.getString(SingleAccount.accountTypeArg)
+            SingleAccountScreen(accountType)
         }
     }
 }
