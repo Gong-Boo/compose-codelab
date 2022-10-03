@@ -10,40 +10,38 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 
-interface RallyDestination {
+sealed interface RallyDestination {
     val icon: ImageVector
     val route: String
-}
 
-object Overview : RallyDestination {
-    override val icon = Icons.Filled.PieChart
-    override val route = "overview"
-}
+    object Overview : RallyDestination {
+        override val icon = Icons.Filled.PieChart
+        override val route = "overview"
+    }
 
-object Accounts : RallyDestination {
-    override val icon = Icons.Filled.AttachMoney
-    override val route = "accounts"
-}
+    object Accounts : RallyDestination {
+        override val icon = Icons.Filled.AttachMoney
+        override val route = "accounts"
+    }
 
-object Bills : RallyDestination {
-    override val icon = Icons.Filled.MoneyOff
-    override val route = "bills"
-}
+    object Bills : RallyDestination {
+        override val icon = Icons.Filled.MoneyOff
+        override val route = "bills"
+    }
 
-object SingleAccount : RallyDestination {
-    override val icon = Icons.Filled.Money
-    override val route = "single_account"
-    const val accountTypeArg = "account_type"
-    /**
-     * '{'${Parameter}'}' 필수!
-     */
-    val routeWithArgs = "${route}/{${accountTypeArg}}"
-    val arguments = listOf(
-        navArgument(accountTypeArg) { type = NavType.StringType }
-    )
-    val deepLinks = listOf(
-        navDeepLink { uriPattern = "rally://$route/{$accountTypeArg}" }
-    )
+    object SingleAccount : RallyDestination {
+        override val icon = Icons.Filled.Money
+        override val route = "single_account"
+        const val accountTypeArg = "account_type"
+        /**
+         * '{'${Parameter}'}' 필수!
+         */
+        val routeWithArgs = "${route}/{${accountTypeArg}}"
+        val arguments = listOf(
+            navArgument(accountTypeArg) { type = NavType.StringType }
+        )
+        val deepLinks = listOf(
+            navDeepLink { uriPattern = "rally://$route/{$accountTypeArg}" }
+        )
+    }
 }
-
-val rallyTabRowScreens = listOf(Overview, Accounts, Bills, SingleAccount)

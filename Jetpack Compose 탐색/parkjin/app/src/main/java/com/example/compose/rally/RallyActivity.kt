@@ -25,26 +25,26 @@ class RallyActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            RallyApp()
+            RallyApp(RallyDestination.Overview, RallyDestination.Accounts, RallyDestination.Bills)
         }
     }
 }
 
 @Composable
-fun RallyApp() {
+fun RallyApp(vararg tab: RallyDestination) {
     RallyTheme {
         val navController = rememberNavController()
 
         val currentBackStack by navController.currentBackStackEntryAsState()
         val currentDestination = currentBackStack?.destination
-        val currentScreen = rallyTabRowScreens
+        val currentScreen = tab
             .find { it.route == currentDestination?.route }
-            ?: Overview
+            ?: RallyDestination.Overview
 
         Scaffold(
             topBar = {
                 RallyTabRow(
-                    allScreens = rallyTabRowScreens,
+                    allScreens = tab.toList(),
                     onTabSelected = { screen ->
                         navController.navigateSingleTopTo(screen.route)
                     },
@@ -63,38 +63,38 @@ fun RallyApp() {
 @Composable
 fun RallyNavHost(
     navHostController: NavHostController,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = Overview.route,
+        startDestination = RallyDestination.Overview.route,
         modifier = modifier
     ) {
-        composable(route = Overview.route) {
+        composable(route = RallyDestination.Overview.route) {
             OverviewScreen(
                 onClickSeeAllAccounts = {
-                    navHostController.navigateSingleTopTo(Accounts.route)
+                    navHostController.navigateSingleTopTo(RallyDestination.Accounts.route)
                 },
                 onClickSeeAllBills = {
-                    navHostController.navigateSingleTopTo(Bills.route)
+                    navHostController.navigateSingleTopTo(RallyDestination.Bills.route)
                 },
                 onAccountClick = navHostController::navigateToSingleAccount
             )
         }
-        composable(route = Accounts.route) {
+        composable(route = RallyDestination.Accounts.route) {
             AccountsScreen(
                 onAccountClick = navHostController::navigateToSingleAccount
             )
         }
-        composable(route = Bills.route) {
+        composable(route = RallyDestination.Bills.route) {
             BillsScreen()
         }
         composable(
-            route = SingleAccount.routeWithArgs,
-            arguments = SingleAccount.arguments,
-            deepLinks = SingleAccount.deepLinks
+            route = RallyDestination.SingleAccount.routeWithArgs,
+            arguments = RallyDestination.SingleAccount.arguments,
+            deepLinks = RallyDestination.SingleAccount.deepLinks
         ) { backStackEntry ->
-            val accountType = backStackEntry.arguments?.getString(SingleAccount.accountTypeArg)
+            val accountType = backStackEntry.arguments?.getString(RallyDestination.SingleAccount.accountTypeArg)
             SingleAccountScreen(accountType)
         }
     }
@@ -108,5 +108,5 @@ private fun NavHostController.navigateSingleTopTo(route: String) =
     }
 
 private fun NavHostController.navigateToSingleAccount(accountType: String) {
-    navigateSingleTopTo("${SingleAccount.route}/$accountType")
+    navigateSingleTopTo("${RallyDestination.SingleAccount.route}/$accountType")
 }
