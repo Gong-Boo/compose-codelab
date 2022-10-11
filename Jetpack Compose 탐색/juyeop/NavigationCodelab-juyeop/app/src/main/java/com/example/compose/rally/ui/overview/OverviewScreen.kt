@@ -70,6 +70,7 @@ fun OverviewScreen(
             .verticalScroll(rememberScrollState())
             .semantics { contentDescription = "Overview Screen" }
     ) {
+        println("OverviewScreen Call")
         AlertCard()
         Spacer(Modifier.height(RallyDefaultPadding))
         AccountsCard(

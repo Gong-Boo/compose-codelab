@@ -28,6 +28,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.core.os.bundleOf
 import androidx.navigation.*
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -83,7 +84,7 @@ fun RallyNavHost(
         composable(route = Overview.route) {
             OverviewScreen(
                 onClickSeeAllAccounts = {
-                    navController.navigateSingleTopTo(Accounts.route)
+                    // navController.navigateSingleTopTo(Accounts.route)
                 },
                 onClickSeeAllBills = {
                     navController.navigateSingleTopTo(Bills.route)

@@ -67,7 +67,7 @@ fun NavHostController.navigateSingleTopTo(route: String) =
         launchSingleTop = true
 
         // restoreState를 false로 해도 저장된 상태가 복원이 되는데 이유를 모르겠다
-        restoreState = true
+        restoreState = false
     }
 
 private fun NavHostController.navigateToSingleAccount(accountType: String) {

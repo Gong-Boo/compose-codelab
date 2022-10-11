@@ -56,6 +56,7 @@ import com.example.compose.rally.ui.components.BillRow
 import com.example.compose.rally.ui.components.RallyAlertDialog
 import com.example.compose.rally.ui.components.RallyDivider
 import com.example.compose.rally.ui.components.formatAmount
+import com.example.compose.rally.ui.overview.Test.text
 import java.util.Locale
 
 @Composable
@@ -64,6 +65,7 @@ fun OverviewScreen(
     onClickSeeAllBills: () -> Unit = {},
     onAccountClick: (String) -> Unit = {},
 ) {
+    println("OverviewScreen 호출됨")
     Column(
         modifier = Modifier
             .padding(16.dp)
@@ -221,16 +223,26 @@ private fun <T> OverViewDivider(
     }
 }
 
+object Test {
+    var text = "2"
+}
+
+
 /**
  * The Accounts card within the Rally Overview screen.
  */
 @Composable
 private fun AccountsCard(onClickSeeAll: () -> Unit, onAccountClick: (String) -> Unit) {
+
+
     val amount = UserData.accounts.map { account -> account.balance }.sum()
     OverviewScreenCard(
-        title = stringResource(R.string.accounts),
+        title = text,
         amount = amount,
-        onClickSeeAll = onClickSeeAll,
+        onClickSeeAll = {
+            text = "3"
+            onClickSeeAll()
+                        },
         data = UserData.accounts,
         colors = { it.color },
         values = { it.balance }
